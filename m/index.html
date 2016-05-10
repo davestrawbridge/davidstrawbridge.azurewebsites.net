@@ -92,7 +92,7 @@
                 'userId': 'me'
                 , 'labelIds': 'INBOX'
                 , 'maxResults': 10
-                , 'nextPageToken': nextPageToken
+                , 'pageToken': nextPageToken
             });
 
             request.execute(function (response) {
@@ -105,7 +105,7 @@
                     messageRequest.execute(appendMessageRow);
                 });
 
-                $('#nextpage-button').attr('href', window.location.origin + window.location.pathname + '?pageToken=' + response.nextPageToken);
+                $('#nextpage-button').attr('href', window.location.origin + window.location.pathname + '?nextPageToken=' + response.nextPageToken);
             });
         }
 
