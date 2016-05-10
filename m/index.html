@@ -34,6 +34,7 @@
             </thead>
             <tbody></tbody>
         </table>
+        <a href="#" id="nextpage-button">Next &gt;</a>
     </div>
 
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -43,6 +44,9 @@
         var clientId = '1099043948620-eusrv124o384elsfhdp9t3hq9553rr1m.apps.googleusercontent.com';
         var apiKey = 'AIzaSyDy2N7Vy5wz9UiI65FSbcJxi0iC0yferYM';
         var scopes = 'https://www.googleapis.com/auth/gmail.readonly';
+
+        var queryString = getUrlVars();
+        var nextPageToken = queryString["nextPageToken"];
 
         function handleClientLoad() {
             gapi.client.setApiKey(apiKey);
@@ -88,6 +92,7 @@
                 'userId': 'me'
                 , 'labelIds': 'INBOX'
                 , 'maxResults': 10
+                , 'nextPageToken': nextPageToken
             });
 
             request.execute(function (response) {
@@ -99,6 +104,8 @@
 
                     messageRequest.execute(appendMessageRow);
                 });
+
+                $('#nextpage-button').attr('href', location + '?nextPageToken=' + response.nextPageToken);
             });
         }
 
@@ -182,6 +189,19 @@
                 }
             }
             return '';
+        }
+
+        // Read a page's GET URL variables and return them as an associative array.
+        function getUrlVars() {
+            var vars = []
+                , hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
         }
     </script>
     <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
