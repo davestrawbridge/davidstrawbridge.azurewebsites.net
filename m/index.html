@@ -105,7 +105,7 @@
                     messageRequest.execute(appendMessageRow);
                 });
 
-                $('#nextpage-button').attr('href', location + '?nextPageToken=' + response.nextPageToken);
+                $('#nextpage-button').attr('href', window.location.href + '?nextPageToken=' + response.nextPageToken);
             });
         }
 
